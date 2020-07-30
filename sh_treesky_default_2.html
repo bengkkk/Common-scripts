@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="author" content="Fredrik Danielsson, http://lostkeys.se">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex" />
+    <title>测速脚本 | Pico</title>
+  <link rel="stylesheet" href="themes/default/styles/main.css" type="text/css" />
+  <link rel="stylesheet" href="themes/default/styles/highlightjs-github.css" type="text/css" />
+  </head>
+<body>
+
+<aside class="main-nav">
+<nav>
+  <ul>
+          <li class="menuitem ">
+        <a href="sh_treesky_default.html" data-shortcut="">
+          常用脚本收集：
+                  </a>
+      </li>
+          <li class="menuitem active">
+        <a href="sh_treesky_default_2.html" data-shortcut="">
+          测速脚本
+                  </a>
+      </li>
+          <li class="menuitem ">
+        <a href="sh_treesky_default_3.html" data-shortcut="">
+          web环境搭建
+                  </a>
+      </li>
+          <li class="menuitem ">
+        <a href="sh_treesky_default_6.html" data-shortcut="">
+          网络加速
+                  </a>
+      </li>
+          <li class="menuitem ">
+        <a href="sh_treesky_default_4.html" data-shortcut="">
+          系统重装
+                  </a>
+      </li>
+          <li class="menuitem ">
+        <a href="sh_treesky_default_5.html" data-shortcut="">
+          其他收录
+                  </a>
+      </li>
+      </ul>
+</nav>
+</aside>
+<main class="main-content">
+  <article class="article">
+    <h2>SuperBench测速脚本</h2>
+<p>wget -qO- git.io/superbench.sh | bash</p>
+<p>显示系统版本，配置，国内网速等</p>
+<h2>SpeedTest全国内节点测速脚本</h2>
+<p>bash &lt;(curl -Lso- <a href="https://git.io/superspeed">https://git.io/superspeed</a>)</p>
+<p>全国内节点网速全面测速</p>
+<h2>ZBench测速脚本</h2>
+<p>wget -N --no-check-certificate <a href="https://raw.githubusercontent.com/FunctionClub/ZBench/master/ZBench-CN.sh">https://raw.githubusercontent.com/FunctionClub/ZBench/master/ZBench-CN.sh</a> &amp;&amp; bash ZBench-CN.sh</p>
+<p>显示系统版本，配置，网络（更详细）等</p>
+<h2>bench测速脚本</h2>
+<p>wget -qO- bench.sh | bash</p>
+<p>显示系统版本，配置，网络（只下行速度）</p>
+<h2>TestRace回程路由测试脚本</h2>
+<p>wget <a href="https://raw.githubusercontent.com/nanqinlang-script/testrace/master/testrace.sh">https://raw.githubusercontent.com/nanqinlang-script/testrace/master/testrace.sh</a></p>
+<p>bash testrace.sh</p>
+<p>可快速四网路由测试  或手动输入ip进行测试</p>
+  </article>
+</main>
+<nav class="page-toc">
+  <ul id="page-toc-container">
+
+  </ul>
+</nav>
+
+<script src="themes/default/scripts/highlight.js"></script>
+<script src="themes/default/scripts/mousetrap.min.js"></script>
+<script src="themes/default/scripts/clipboard.min.js"></script>
+<script>
+  hljs.initHighlightingOnLoad();
+
+  document.querySelectorAll('.menuitem a').forEach(function(el) {
+    if (el.getAttribute('data-shortcut').length > 0) {
+      Mousetrap.bind(el.getAttribute('data-shortcut'), function() {
+        location.assign(el.getAttribute('href'));
+      });
+    }
+  });
+
+  /**
+   * Generate page table of contents
+   *
+   * Get all H2 elements and render them in a list
+  **/
+  function generatePageTOC() {
+    var tocContainer = document.getElementById('page-toc-container');
+
+    document.querySelectorAll('.article h2').forEach(function(el, index) {
+      // Insert a marker since anchor links breaks with css position sticky
+      // sticky headers upwards are stacked at the top of the viewport
+      // and therefore cannot be jumped to since they are already visible
+      // Instead inject a hidden element to use as a scroll marker
+      el.insertAdjacentHTML('beforebegin', '<i id="page-toc-'+index+'" class="page-toc-scroll-marker">TOC marker</i>');
+
+      var newTocNavItem = document.createElement('li');
+      var newTocNavItemLink = document.createElement('a');
+      var newTocNavItemText = document.createTextNode(el.textContent);
+
+      newTocNavItemLink.setAttribute('href', '#page-toc-' + index);
+      newTocNavItemLink.appendChild(newTocNavItemText);
+      newTocNavItem.appendChild(newTocNavItemLink);
+      tocContainer.appendChild(newTocNavItem);
+    });
+  }
+  generatePageTOC();
+
+  /**
+   * Copy to clipboard
+   *
+   * Powered by https://clipboardjs.com
+  **/
+
+  new ClipboardJS('.copy-to-clipboard-btn');
+
+  // Attach id attribute to all pre > code elements and append a button
+  document.querySelectorAll('pre code').forEach(function(el, index) {
+    el.setAttribute('id', 'code-block-' + index);
+  });
+
+  // Add copy-to-clipboard buttons. Begin by wrapping all pre elements in a div...
+  document.querySelectorAll('pre').forEach(function(el, index) {
+
+    // Create the wrapper div and apply classes on it
+    var wrapper = document.createElement('div');
+    wrapper.classList.add('code-block-container');
+
+    // Place the wrapper div before the pre element
+    el.parentNode.insertBefore(wrapper, el);
+
+    // Move the pre element inside the wrapper div
+    wrapper.appendChild(el);
+
+    // Append a copy to clipboard button after each code block
+    wrapper.insertAdjacentHTML('beforeend', `
+      <button type="button" class="copy-to-clipboard-btn" data-clipboard-target="#code-block-${index}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0H24V24H0z"/><path fill="currentColor" d="M13 11L11 11 11 14 8 14 8 16 11 16 11 19 13 19 13 16 16 16 16 14 13 14z"/><path fill="currentColor" d="M19 5h-2V3h-1.142c-.447-1.72-2-3-3.858-3S8.589 1.28 8.142 3H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zm-7-3c.739 0 1.385.402 1.731 1h-3.463c.347-.598.993-1 1.732-1zM9 5h6v2H9V5zm10 16H5V7h2v2h10V7h2v14z"/></svg>
+      </button>
+    `);
+  });
+</script>
+
+</body>
+</html>
